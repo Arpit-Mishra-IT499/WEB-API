@@ -80,29 +80,28 @@ namespace EmployeeManagement.DataAccess
 
         }
 
-        public bool Delete(string employeeNumber)
+        public bool Delete(Employee EmployeeToDelete)
         {
-         
-             using (EmployeeDbContext context = new EmployeeDbContext())
-            {
-                var employeeToDelete = context.Employees.FirstOrDefault(e => e.EmployeeId == employeeNumber);
-                 context.Database.EnsureCreated();
 
-                if (employeeToDelete != null)
+            using (EmployeeDbContext context = new EmployeeDbContext())
+            {
+                context.Database.EnsureCreated();
+
+
+                if (EmployeeToDelete != null)
                 {
-                    context.Remove(employeeToDelete!);
+
+                    context.Entry(EmployeeToDelete).State = EntityState.Modified;
                     context.SaveChanges();
-                    return true;
+
                 }
-                else
-                {
-                    return false;
-                }
+
+                return true;
 
             }
 
 
-            
+
         }
         public bool Set(Employee employee)
         {

@@ -13,7 +13,7 @@ namespace EmployeeManagement.DataAccess.Interfaces
         public List<Employee> GetAll();
         public Employee GetOne(string employeeNumber);
         public bool Update(Employee updatedEmployee);
-        public bool Delete(string employeeNumber);
+        public bool Delete(Employee EmployeeToDelete);
         public bool Set(Employee employee);
 
     }

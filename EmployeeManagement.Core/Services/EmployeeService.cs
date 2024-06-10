@@ -52,24 +52,34 @@ namespace EmployeeManagement.Core.Services
 
         public bool Delete(string employeeNumber)
         {
+            Employee employeeToDelete = employeeDataAccess.GetOne(employeeNumber);
+            if (employeeToDelete != null)
+            {
+                employeeToDelete.StatusId = 3;
+                return employeeDataAccess.Delete(employeeToDelete);
+            }
+            else
+            {
+                return false;
+            }
 
-            return employeeDataAccess.Delete(employeeNumber);
+            
         }
 
-        public bool Edit(EmployeeModel updatedEmployee,string emp)
+        public bool Edit(EmployeeModel updatedEmployee)
         {
 
-            //Employee employeeToUpdate=employeeDataAccess.GetOne(emp);
-            //if (employeeToUpdate != null)
-            //{
-            //    TinyMapper.Map(updatedEmployee, employeeToUpdate);
-            //    return employeeDataAccess.Update(employeeToUpdate);
-            //}
-            //else
-            //{
-            //    return false;
-            //}
-            return false;
+            Employee employeeToUpdate=employeeDataAccess.GetOne(updatedEmployee.EmployeeId!);
+            if (employeeToUpdate != null)
+            {
+                TinyMapper.Map(updatedEmployee, employeeToUpdate);
+                return employeeDataAccess.Update(employeeToUpdate);
+            }
+            else
+            {
+                return false;
+            }
+            
         }
 
         public void GoBack()
@@ -85,6 +95,7 @@ namespace EmployeeManagement.Core.Services
             EmployeeModel employeeData= null;
             foreach(Employee employee in emps)
             {
+                if (employee.StatusId == 3) continue;
                 employeeData = TinyMapper.Map<EmployeeModel>(employee);
                 emp.Add(employeeData);
             }

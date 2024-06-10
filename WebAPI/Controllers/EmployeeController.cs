@@ -16,15 +16,31 @@ namespace WebAPI.Controllers
         [HttpGet]
         public ActionResult GetAllEmployee()
         {
-            List<EmployeeModel> employee =_employeeService.ViewAll();
+            List<EmployeeModel> employee = _employeeService.ViewAll();
             return Ok(employee);
         }
         [HttpPost]
         public ActionResult SetEmployee([FromBody] EmployeeModel employee)
         {
             _employeeService.Add(employee);
-            return Ok();    
+            return Ok();
         }
 
+        [HttpPut]
+        public ActionResult UpdateEmployee([FromBody] EmployeeModel employee)
+        {
+            _employeeService.Edit(employee);
+            return Ok();
+        }
+
+
+        [HttpDelete]
+        [Route("{employeeId}")]
+        public ActionResult DeleteEmployee([FromRoute] string employeeId)
+        {
+            _employeeService.Delete(employeeId);
+            return Ok();
+        }
     }
 }
+
