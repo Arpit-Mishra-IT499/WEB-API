@@ -14,35 +14,42 @@ namespace EmployeeManagement.Core.Services
 {
     public class RoleDetailService : IRoleDetailService
     {
-        private IRoleDataAccess roleDataAccess;
-        public RoleDetailService(IRoleDataAccess _roleDataAccess) { 
-            this.roleDataAccess = _roleDataAccess;
+        private IRoleDetailDataAccess roleDetailDataAccess;
+        public RoleDetailService(IRoleDetailDataAccess _roleDetailDataAccess) { 
+            this.roleDetailDataAccess = _roleDetailDataAccess;
         }
 
         public void Build()
         {
 
             TinyMapper.Bind<RoleDetail, RoleDetailModel>();
-            TinyMapper.Bind<RoleDetailModel, Role>();
+            TinyMapper.Bind<RoleDetailModel, RoleDetail>();
         }
         public bool Add(RoleDetailModel roleDetail)
         {
             Build();
             Role roleData = TinyMapper.Map<Role>(roleDetail);
-            return roleDataAccess.Set(roleData); 
+            //return roleDetailDataAccess.Set(roleData);
+            return true;
         }
 
         public List<RoleDetailModel> ViewAll()
         {
             Build();
-            List<Role> roleDataList =roleDataAccess.GetAll();
+            List<RoleDetail> roleDataList =roleDetailDataAccess.GetAll();
             List<RoleDetailModel>roles = new List<RoleDetailModel>();
 
-            foreach (Role role in roleDataList)
+            foreach (RoleDetail role in roleDataList)
             {
                 roles.Add(TinyMapper.Map<RoleDetailModel>(role));
             }
             return roles;
+        }
+
+        public int GetId(int roleId,int deptId,int locId)
+        {
+            int id = roleDetailDataAccess.GetRoleDetailId(roleId, deptId, locId);
+            return id;
         }
     }
 }

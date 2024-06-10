@@ -12,10 +12,11 @@ namespace EmployeeManagement.Core.Services
     {
       
         private IEmployeeDataAccess employeeDataAccess;
+        private IRoleDetailDataAccess roleDetailDataAccess;
        
-        public EmployeeService(IEmployeeDataAccess _employeeDataAccess) {
+        public EmployeeService(IEmployeeDataAccess _employeeDataAccess,IRoleDetailDataAccess _roleDetailDataAccess) {
             this.employeeDataAccess = _employeeDataAccess;
-            
+            this.roleDetailDataAccess = _roleDetailDataAccess;
         }
         
         private List<EmployeeModel> ?employeeList;
@@ -29,13 +30,22 @@ namespace EmployeeManagement.Core.Services
                 config.Bind(src => src.RoleDetail.Department.DepartmentName, dest => dest.DepartmentName);
                 config.Bind(src => src.RoleDetail.LocationId, dest => dest.LocationId);
                 config.Bind(src => src.RoleDetail.Location.LocationName, dest => dest.LocationName);
+                config.Bind(src => src.ProjectId, dest => dest.ProjectId);
+                config.Bind(src => src.Project!.ProjectName, dest => dest.ProjectName);
+                config.Bind(src => src.StatusId, dest => dest.StatusId);
+                config.Bind(src => src.Status!.StatusValue, dest => dest.StatusName);
+
+
             });
-            TinyMapper.Bind<DepartmentModel, Department>();
+            TinyMapper.Bind<EmployeeModel, Employee>();
         }
         public bool Add(EmployeeModel employee)
         {
-           
-            Employee employeeEntity = TinyMapper.Map<Employee>(employee);
+            Build();
+            int id = roleDetailDataAccess.GetRoleDetailId(employee.RoleId, employee.DepartmentId, employee.LocationId);
+            Employee employeeEntity = null!;
+            employeeEntity = TinyMapper.Map<Employee>(employee);
+            employeeEntity.RoleDetailId = id;   
             return employeeDataAccess.Set(employeeEntity); 
         }
             

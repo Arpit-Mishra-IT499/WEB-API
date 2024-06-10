@@ -14,10 +14,16 @@ namespace WebAPI.Controllers
             _employeeService = employeeService;
         }
         [HttpGet]
-        public ActionResult getAllEmployee()
+        public ActionResult GetAllEmployee()
         {
             List<EmployeeModel> employee =_employeeService.ViewAll();
             return Ok(employee);
+        }
+        [HttpPost]
+        public ActionResult SetEmployee([FromBody] EmployeeModel employee)
+        {
+            _employeeService.Add(employee);
+            return Ok();    
         }
 
     }

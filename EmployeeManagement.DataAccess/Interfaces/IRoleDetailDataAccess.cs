@@ -12,5 +12,6 @@ namespace EmployeeManagement.DataAccess.Interfaces
     {
         public List<RoleDetail> GetAll();
         public bool Set(RoleDetail role);
+        public int GetRoleDetailId(int RoleId, int DepartmentId, int locationId);
     }
 }

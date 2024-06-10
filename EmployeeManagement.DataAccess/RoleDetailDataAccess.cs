@@ -44,6 +44,16 @@ namespace EmployeeManagement.DataAccess
            
         }
 
+        public int GetRoleDetailId( int RoleId,int DepartmentId, int locationId)
+        {
+            using (context)
+            {
+                context.Database.EnsureCreated();
+                int roleDetailId=context.RoleDetails.FirstOrDefault(r => (r.RoleId == RoleId && r.DepartmentId==DepartmentId && r.LocationId==locationId))!.RoleDetailId;
+                return roleDetailId;
+            }
+        }
+
 
         public bool Set(RoleDetail roleDetails)
         {
