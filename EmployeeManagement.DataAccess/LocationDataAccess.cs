@@ -15,17 +15,12 @@ namespace EmployeeManagement.DataAccess
 {
     public class LocationDataAccess:ILocationDataAccess
     {
-        private EmployeeDbContext context;
-        public LocationDataAccess(EmployeeDbContext _context)
-        {
-            this.context = _context;
-        }
-
+        
         public List<Location> GetAll()
         {
 
             List<Location> locs = [];
-            using (context)
+            using (EmployeeDbContext context=new EmployeeDbContext())
             {
                 context.Database.EnsureCreated();
                 locs=context.Locations.ToList();
@@ -39,7 +34,7 @@ namespace EmployeeManagement.DataAccess
         public bool Set(Location location)
         {
             
-            using (context)
+            using (EmployeeDbContext context = new EmployeeDbContext())
             {
                 context.Database.EnsureCreated();
                 context.Locations.Add(location);

@@ -22,7 +22,11 @@ namespace EmployeeManagement.Core.Services
         public void Build()
         {
 
-            TinyMapper.Bind<Role, RoleModel>();
+            TinyMapper.Bind<Role, RoleModel>(config => {
+                config.Bind(src => src.RoleId, dest => dest.RoleId);
+                config.Bind(src => src.RoleName, dest => dest.RoleName);
+                config.Bind(src => src.Description, dest => dest.Description);
+            });
             TinyMapper.Bind<RoleModel, Role>();
         }
         public bool Add(RoleModel role)
@@ -40,7 +44,8 @@ namespace EmployeeManagement.Core.Services
 
             foreach (Role role in roleDataList)
             {
-                roles.Add(TinyMapper.Map<RoleModel>(role));
+                RoleModel empRole = TinyMapper.Map<RoleModel>(role);
+                roles.Add(empRole);
             }
             return roles;
         }

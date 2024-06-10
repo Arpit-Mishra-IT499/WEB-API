@@ -11,6 +11,6 @@ namespace EmployeeManagement.Model
         public required int RoleId { get; set; }
         public required string RoleName { get; set; }
         public required string Description { get; set; }
-       
+        
     }
 }
