@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeManagement.DataAccess.Entities;
 
-public partial class EmployeeDbContext : DbContext
+public partial class EmployeeDbContext : IdentityDbContext<AppUser>
 {
-    public EmployeeDbContext()
-    {
-    }
 
-    public EmployeeDbContext(DbContextOptions<EmployeeDbContext> options)
-        : base(options)
-    {
-    }
+    //public EmployeeDbContext(DbContextOptions<EmployeeDbContext> options)
+    //    : base(options)
+    //{
+    //}
 
     public virtual DbSet<Department> Departments { get; set; }
 
@@ -30,18 +29,34 @@ public partial class EmployeeDbContext : DbContext
     public virtual DbSet<Status> Statuses { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=TL196;Initial Catalog=EmployeeDB;Integrated Security=True;Encrypt=False");
+        => optionsBuilder.UseSqlServer("Data Source=TL196;Initial Catalog=EmployeeApplicationDB;Integrated Security=True;Encrypt=False");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+        List<IdentityRole>roles=new List<IdentityRole>
+        {
+            new IdentityRole
+            {
+                Name="Admin",
+                NormalizedName="ADMIN"
+            },
+            new IdentityRole
+            {
+                Name="User",
+                NormalizedName="USER"
+            }
+        };
+        modelBuilder.Entity<IdentityRole>().HasData(roles);
+
+        base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Department>(entity =>
         {
             entity.HasKey(e => e.DepartmentId).HasName("PK__Departme__B2079BCD476A6D2C");
 
             entity.Property(e => e.DepartmentId).HasColumnName("DepartmentID");
             entity.Property(e => e.DepartmentName)
-                .HasMaxLength(10)
+                .HasMaxLength(30)
                 .IsUnicode(false);
         });
 
@@ -54,20 +69,20 @@ public partial class EmployeeDbContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("EmployeeID");
             entity.Property(e => e.DateOfBirth)
-                .HasMaxLength(8)
+                .HasMaxLength(10)
                 .IsUnicode(false);
             entity.Property(e => e.Email)
                 .HasMaxLength(30)
                 .IsUnicode(false);
             entity.Property(e => e.EmployeeProfilePic).IsUnicode(false);
             entity.Property(e => e.FirstName)
-                .HasMaxLength(10)
+                .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.JoiningDate)
-                .HasMaxLength(8)
+                .HasMaxLength(10)
                 .IsUnicode(false);
             entity.Property(e => e.LastName)
-                .HasMaxLength(10)
+                .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.ManagerId)
                 .HasMaxLength(6)
@@ -104,7 +119,7 @@ public partial class EmployeeDbContext : DbContext
 
             entity.Property(e => e.LocationId).HasColumnName("LocationID");
             entity.Property(e => e.LocationName)
-                .HasMaxLength(10)
+                .HasMaxLength(30)
                 .IsUnicode(false);
         });
 
@@ -114,7 +129,7 @@ public partial class EmployeeDbContext : DbContext
 
             entity.Property(e => e.ProjectId).HasColumnName("ProjectID");
             entity.Property(e => e.ProjectName)
-                .HasMaxLength(10)
+                .HasMaxLength(20)
                 .IsUnicode(false);
         });
 
@@ -124,10 +139,10 @@ public partial class EmployeeDbContext : DbContext
 
             entity.Property(e => e.RoleId).HasColumnName("RoleID");
             entity.Property(e => e.Description)
-                .HasMaxLength(20)
+                .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.RoleName)
-                .HasMaxLength(10)
+                .HasMaxLength(30)
                 .IsUnicode(false);
         });
 

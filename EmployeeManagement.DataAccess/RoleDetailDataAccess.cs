@@ -27,8 +27,7 @@ namespace EmployeeManagement.DataAccess
            
             // Initialize the list
             List<RoleDetail>roleDetailsDataList= new List<RoleDetail>();
-            using (context)
-            {
+           
                 context.Database.EnsureCreated();
                 List<RoleDetail> roleDetails = context.RoleDetails
             .Include(e => e.Department)
@@ -40,30 +39,28 @@ namespace EmployeeManagement.DataAccess
 
                 return roleDetails;
 
-            }
+            
            
         }
 
         public int GetRoleDetailId( int RoleId,int DepartmentId, int locationId)
         {
-            using (context)
-            {
+            
                 context.Database.EnsureCreated();
                 int roleDetailId=context.RoleDetails.FirstOrDefault(r => (r.RoleId == RoleId && r.DepartmentId==DepartmentId && r.LocationId==locationId))!.RoleDetailId;
                 return roleDetailId;
-            }
+            
         }
 
 
         public bool Set(RoleDetail roleDetails)
         {
-            using (context)
-            {
+           
                 context.Database.EnsureCreated();
                 context.RoleDetails.Add(roleDetails);
                 context.SaveChanges();
 
-            }
+            
                 return true;
         }
 

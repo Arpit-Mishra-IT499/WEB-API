@@ -26,28 +26,26 @@ namespace EmployeeManagement.DataAccess
            
             // Initialize the list
             List<Status>StatusDataList= new List<Status>();
-            using (context)
-            {
+            
                 context.Database.EnsureCreated();
                 StatusDataList=context.Statuses.ToList();
 
               
                 context.SaveChanges();
 
-            }
+            
             return StatusDataList;
         }
 
 
         public bool Set(Status status)
         {
-            using (context)
-            {
+            
                 context.Database.EnsureCreated();
                 context.Statuses.Add(status);
                 context.SaveChanges();
 
-            }
+            
                 return true;
         }
 

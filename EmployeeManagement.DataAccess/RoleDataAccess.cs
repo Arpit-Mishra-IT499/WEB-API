@@ -16,8 +16,12 @@ namespace EmployeeManagement.DataAccess
 {
     public class RoleDataAccess:IRoleDataAccess
     {
-  
-       
+
+        private EmployeeDbContext context;
+        public RoleDataAccess(EmployeeDbContext _context)
+        {
+            this.context = _context;
+        }
 
         public List<Role> GetAll()
         {
@@ -25,28 +29,26 @@ namespace EmployeeManagement.DataAccess
            
             // Initialize the list
             List<Role>roleDataList= new List<Role>();
-            using (EmployeeDbContext context=new EmployeeDbContext())
-            {
+            
                 context.Database.EnsureCreated();
                 roleDataList=context.Roles.ToList();
 
               
                 context.SaveChanges();
 
-            }
+            
             return roleDataList;
         }
 
 
         public bool Set(Role role)
         {
-            using (EmployeeDbContext context = new EmployeeDbContext())
-            {
+           
                 context.Database.EnsureCreated();
                 context.Roles.Add(role);
                 context.SaveChanges();
 
-            }
+            
                 return true;
         }
 

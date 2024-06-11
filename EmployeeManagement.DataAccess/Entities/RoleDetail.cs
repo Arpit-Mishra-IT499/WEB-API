@@ -13,7 +13,7 @@ public partial class RoleDetail
 
     public int LocationId { get; set; }
 
-    public bool? IsDeleted { get; set; }
+    public bool? IsDeleted { get; set; } = false;
 
     public virtual Department Department { get; set; } = null!;
 

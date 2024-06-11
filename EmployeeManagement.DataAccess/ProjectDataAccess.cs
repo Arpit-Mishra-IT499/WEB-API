@@ -26,28 +26,26 @@ namespace EmployeeManagement.DataAccess
            
             // Initialize the list
             List<Project>ProjectDataList= new List<Project>();
-            using (context)
-            {
+           
                 context.Database.EnsureCreated();
                 ProjectDataList=context.Projects.ToList();
 
               
                 context.SaveChanges();
 
-            }
+            
             return ProjectDataList;
         }
 
 
         public bool Set(Project project)
         {
-            using (context)
-            {
+            
                 context.Database.EnsureCreated();
                 context.Projects.Add(project);
                 context.SaveChanges();
 
-            }
+            
                 return true;
         }
 

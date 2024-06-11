@@ -10,13 +10,16 @@ namespace EmployeeManagement.DataAccess
 {
     public class EmployeeDataAccess:IEmployeeDataAccess
     {
-        
-   
+
+        private EmployeeDbContext context;
+        public EmployeeDataAccess(EmployeeDbContext _context)
+        {
+            this.context = _context;
+        }
         public  List<Employee> GetAll()
         {
           
-            using (EmployeeDbContext context=new EmployeeDbContext())
-                {
+           
                 context.Database.EnsureCreated();
 
                 List<Employee> emp =  context.Employees
@@ -30,7 +33,7 @@ namespace EmployeeManagement.DataAccess
               .Include(e => e.Status).ToList();
                 return emp;
 
-            }
+            
                  
             }
 
@@ -44,8 +47,7 @@ namespace EmployeeManagement.DataAccess
         {
 
           
-            using (EmployeeDbContext context = new EmployeeDbContext())
-            {
+       
                 context.Database.EnsureCreated();
 
                 Employee emp =context.Employees.FirstOrDefault(e => e.EmployeeId == employeeNumber)!;
@@ -53,7 +55,7 @@ namespace EmployeeManagement.DataAccess
 
                 return emp ;
 
-            }
+            
 
 
         }
@@ -61,8 +63,7 @@ namespace EmployeeManagement.DataAccess
         public bool Update(Employee updatedEmployee)
         {
              
-             using (EmployeeDbContext context = new EmployeeDbContext())
-            {
+            
                   context.Database.EnsureCreated();
 
                  
@@ -76,15 +77,14 @@ namespace EmployeeManagement.DataAccess
 
                 return true;
 
-            }
+            
 
         }
 
         public bool Delete(Employee EmployeeToDelete)
         {
 
-            using (EmployeeDbContext context = new EmployeeDbContext())
-            {
+            
                 context.Database.EnsureCreated();
 
 
@@ -98,7 +98,7 @@ namespace EmployeeManagement.DataAccess
 
                 return true;
 
-            }
+            
 
 
 
@@ -106,8 +106,7 @@ namespace EmployeeManagement.DataAccess
         public bool Set(Employee employee)
         {
            
-            using (EmployeeDbContext context = new EmployeeDbContext())
-            {
+            
                 context.Database.EnsureCreated();
                  context.Employees.Add(employee);
                 context.SaveChanges();
@@ -117,6 +116,6 @@ namespace EmployeeManagement.DataAccess
             }
 
             
-        }
+        
     }
 }
