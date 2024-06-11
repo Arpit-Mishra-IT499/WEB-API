@@ -1,11 +1,13 @@
 ﻿using EmployeeManagement.Core.Interfaces;
 using EmployeeManagement.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class RoleController : Controller
     {
         private IRoleService _roleService;
